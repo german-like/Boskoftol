@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>ボスコフトル音律</h1>
-  <label for="nInput">n の値 (0〜31):</label>
+  <label for="nInput">n の値:</label>
   <input type="number" id="nInput" min="0" max="31" value="0">
   <button onclick="playFrequencyFromN()">再生</button>
   <p id="freqDisplay"></p>
@@ -16,10 +16,14 @@
     const f0 = 220;
     const step = Math.pow(5, 1/31); // 5^(1/31)
 
-    function playTone(frequency, duration = 20000) {
+    function playTone(frequency, duration = 1000) {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
+
+      const ctx = playTone(freq, 2000);
+      setTimeout(() => ctx.close(), 2100);
+
 
       oscillator.type = 'square';
       oscillator.frequency.value = frequency;
@@ -36,13 +40,6 @@
 
       return audioCtx;
     }
-
-    function playFrequencyFromN() {
-      const n = parseInt(document.getElementById("nInput").value);
-      if (isNaN(n) || n < 0 || n > 31) {
-        alert("n は 0〜31 の整数で入力してください。");
-        return;
-      }
 
       const freq = f0 * Math.pow(step, n);
       document.getElementById("freqDisplay").innerText = `周波数: ${freq.toFixed(3)} Hz`;
