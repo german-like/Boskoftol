@@ -1,0 +1,45 @@
+body { 
+    font-family:'Noto Sans JP',sans-serif; 
+    background-color:#ffe; 
+} 
+h1 {
+  border-left:6px solid #095;
+  padding-left:8px;
+}
+h2 {
+  border-right:1px solid #aaa;
+  border-down:1px solid #aaa;
+  padding-left:8px;
+}
+.side { 
+    background-color:#dfe;
+    width:150px; 
+    height:3000px; 
+    border-right:3px solid #576;
+    padding-right:4px;
+    margin-right:4px;
+    text-align:left; 
+    float:right;
+} 
+img{
+    width: 100%;
+}
+.content{
+    width: calc(100% - 200px);
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #5d627b;
+    background: white;
+    border-top: solid 5px #5d627b;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+}
+.content p {
+    margin: 0; 
+    padding: 0;
+}
+table {
+    border:2px solid #000
+}
+article { 
+    display:flex; 
+} 
