@@ -16,12 +16,12 @@
     const f0 = 220;
     const step = Math.pow(5, 1/31); // 5^(1/31)
 
-    function playTone(frequency, duration = 2500) {
+    function playTone(frequency, duration = 20000) {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
 
-      oscillator.type = 'sine';
+      oscillator.type = 'square';
       oscillator.frequency.value = frequency;
 
       oscillator.connect(gainNode);
