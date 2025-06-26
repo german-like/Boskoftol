@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>nに対応する音を鳴らす</title>
+  <link href="all_style.css">
 </head>
 <body>
   <h1>ボスコフトル音律</h1>
@@ -12,7 +13,7 @@
   <p id="freqDisplay"></p>
 
   <script>
-    const f0 = 110;
+    const f0 = 220;
     const step = Math.pow(5, 1/31); // 5^(1/31)
 
     function playTone(frequency, duration = 1000) {
