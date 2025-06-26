@@ -22,8 +22,11 @@
       const gainNode = audioCtx.createGain();
 
       const ctx = playTone(freq, 2000);
-      setTimeout(() => ctx.close(), 2100);
+      setTimeout(() => ctx.close(), 4000);
 
+      function playFrequencyFromN() {
+      const n = parseInt(document.getElementById("nInput").value);
+      }
 
       oscillator.type = 'square';
       oscillator.frequency.value = frequency;
