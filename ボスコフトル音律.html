@@ -1,15 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>index</title>
-    <link rel="stylesheet" href="all_style.css">
+  <meta charset="UTF-8">
+  <title>nに対応する音を鳴らす</title>
 </head>
 <body>
-    <h1>ドイツ好きの部屋</h1>
-    <p class="content">
-        <button onclick="playScale()">再生</button>
-      	<script rel="stylesheet" href="ボスコフトル音律.js"></script>
-    </p>
+  <h1>ボスコフトル音律</h1>
+  <label for="nInput">n の値 (0〜31):</label>
+  <input type="number" id="nInput" min="0" max="31" value="0">
+  <button onclick="playFrequencyFromN()">再生</button>
+  <p id="freqDisplay"></p>
+
+  <script>
+    const f0 = 110;
+    const step = Math.pow(5, 1/31); // 5^(1/31)
+
+    function playTone(frequency, duration = 1000) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start();
+
+      gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration / 1000);
+
+      oscillator.stop(audioCtx.currentTime + duration / 1000);
+
+      return audioCtx;
+    }
+
+    function playFrequencyFromN() {
+      const n = parseInt(document.getElementById("nInput").value);
+      if (isNaN(n) || n < 0 || n > 31) {
+        alert("n は 0〜31 の整数で入力してください。");
+        return;
+      }
+
+      const freq = f0 * Math.pow(step, n);
+      document.getElementById("freqDisplay").innerText = `周波数: ${freq.toFixed(3)} Hz`;
+
+      const ctx = playTone(freq, 1000);
+      setTimeout(() => ctx.close(), 1100);
+    }
+  </script>
 </body>
 </html>
