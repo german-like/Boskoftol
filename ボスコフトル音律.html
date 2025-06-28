@@ -49,7 +49,76 @@
 
       const ctx = playTone(freq, 1000);
       setTimeout(() => ctx.close(), 1100);
+    }<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>音律鍵盤 - シーケンサー</title>
+  <style>
+    .keyboard {
+      display: flex;
+      margin-top: 20px;
     }
+    .key {
+      width: 30px;
+      height: 150px;
+      border: 1px solid #333;
+      background: white;
+      margin: 1px;
+      text-align: center;
+      line-height: 150px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 12px;
+    }
+    .key.active {
+      background: lightblue;
+    }
+    .key:hover {
+      background: #cce;
+    }
+  </style>
+</head>
+<body>
+  <h1>和音・シーケンサー鍵盤</h1>
+  <p>クリックしてキーを選択 → 和音 or シーケンス再生</p>
+
+  <div class="keyboard" id="keyboard"></div>
+  <br>
+
+  <label>長さ(ms): <input type="number" id="durationInput" value="600"></label>
+  <label>間隔(ms): <input type="number" id="intervalInput" value="800"></label>
+  <br><br>
+
+  <button onclick="playSelectedChord()">和音を再生</button>
+  <button onclick="playSequence()">シーケンス再生</button>
+
+  <p id="freqDisplay"></p>
+
+  <script>
+    const f0 = 110;
+    const step = Math.pow(5, 1/31);
+    const keyCount = 16;
+
+    function playTone(frequency, duration = 1000, volume = 1) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+
+      gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration / 1000);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + duration / 1000);
+
+      setTimeout(() => audioCtx.close(), duration + 1
+
   </script>
 </body>
 </html>
